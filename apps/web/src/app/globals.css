@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+}
+
+/* Monaco editor dark theme tweaks */
+.monaco-editor .margin {
+    background: #161b22 !important;
+}
+
+.monaco-editor-background {
+    background: #0d1117 !important;
+}
