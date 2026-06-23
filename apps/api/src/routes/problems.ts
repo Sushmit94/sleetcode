@@ -8,19 +8,24 @@ import { eq } from "drizzle-orm";
 
 export async function problemRoutes(app: FastifyInstance) {
     // GET /problems — list all
-    app.get("/problems", async () => {
-        const rows = await db
-            .select({
-                id: problems.id,
-                title: problems.title,
-                slug: problems.slug,
-                difficulty: problems.difficulty,
-                tags: problems.tags,
-                totalSubmissions: problems.totalSubmissions,
-                acceptanceRate: problems.acceptanceRate,
-            })
-            .from(problems);
-        return rows;
+    app.get("/problems", async (_req, reply) => {
+        try {
+            const rows = await db
+                .select({
+                    id: problems.id,
+                    title: problems.title,
+                    slug: problems.slug,
+                    difficulty: problems.difficulty,
+                    tags: problems.tags,
+                    totalSubmissions: problems.totalSubmissions,
+                    acceptanceRate: problems.acceptanceRate,
+                })
+                .from(problems);
+            return rows;
+        } catch (err) {
+            app.log.error(err);
+            return reply.status(500).send({ error: "Failed to fetch problems", details: String(err) });
+        }
     });
 
     // GET /problems/:slug
