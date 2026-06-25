@@ -1,3 +1,5 @@
+import "dotenv/config"; 
+console.log("DATABASE_URL:", process.env.DATABASE_URL);  // ADD THIS AS LINE 1
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { problemRoutes } from "./routes/problems";

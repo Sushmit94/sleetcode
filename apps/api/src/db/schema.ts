@@ -10,7 +10,7 @@ export const problems = pgTable("problems", {
     description: text("description").notNull(),
     starterCode: text("starter_code").notNull(),
     testCode: text("test_code").notNull(), // hidden from user
-    tags: text("tags").array().notNull().default([]),
+    tags: text("tags").array().notNull(),
     totalSubmissions: integer("total_submissions").notNull().default(0),
     acceptanceRate: real("acceptance_rate").notNull().default(0),
     createdAt: timestamp("created_at").defaultNow(),

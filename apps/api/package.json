@@ -7,15 +7,16 @@
         "start": "node dist/index.js"
     },
     "dependencies": {
+        "@fastify/cors": "^9.0.0",
         "@solidity-judge/shared": "*",
         "bullmq": "^5.0.0",
         "dockerode": "^4.0.0",
+        "dotenv": "^17.4.2",
         "drizzle-orm": "^0.30.0",
         "fastify": "^4.27.0",
-        "@fastify/cors": "^9.0.0",
-        "pg": "^8.11.0",
         "ioredis": "^5.3.0",
         "nanoid": "^5.0.0",
+        "pg": "^8.11.0",
         "zod": "^3.22.0"
     },
     "devDependencies": {

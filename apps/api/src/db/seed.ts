@@ -1,3 +1,4 @@
+import "dotenv/config"; // ADD AS LINE 1
 import { db } from "./client";
 import { problems } from "./schema";
 import { nanoid } from "nanoid";
