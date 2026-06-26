@@ -1,92 +1,74 @@
 "use client";
 
-import { SubmissionResult } from "@solidity-judge/shared";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { getProblem, submitSolution } from "@/lib/api";
+import { Problem, SubmissionResult } from "@solidity-judge/shared";
+import { TestResults } from "@/components/TestResults";
+import { Navbar } from "@/components/Navbar";
 
-interface Props {
-    result: SubmissionResult | null;
-    isSubmitting: boolean;
-}
 
-export function TestResults({ result, isSubmitting }: Props) {
-    if (isSubmitting) {
-        return (
-            <div className= "flex items-center gap-2 p-4 text-sm text-gray-400" >
-            <span className="animate-spin" >⟳</span>
-        Compiling and running Foundry tests…
+
+
+
+
+
+export default function ProblemPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const [problem, setProblem] = useState<Problem | null>(null);
+  const [code, setCode] = useState("");
+  const [result, setResult] = useState<SubmissionResult | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    getProblem(slug).then(setProblem).catch(console.error);
+  }, [slug]);
+
+  const handleSubmit = async () => {
+    if (!problem) return;
+    setIsSubmitting(true);
+    try {
+      const res = await submitSolution(problem.id, code);
+      setResult(res);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!problem) return <div className="p-8 text-gray-400">Loading…</div>;
+
+  return (
+    <div className="min-h-screen bg-bg text-white flex flex-col">
+      <Navbar />
+      <main className="flex flex-1 overflow-hidden">
+        {/* Left: problem description */}
+        <div className="w-1/2 p-6 overflow-y-auto border-r border-border">
+          <h1 className="text-xl font-semibold mb-2">{problem.title}</h1>
+          <p className="text-sm text-gray-400 mb-4">{problem.description}</p>
         </div>
-    );
-    }
 
-    if (!result) {
-        return (
-            <div className= "p-4 text-sm text-gray-500" >
-            Submit your solution to see test results.
-      </div>
-    );
-    }
-
-    if (result.compileError) {
-        return (
-            <div className= "p-4" >
-            <div className="flex items-center gap-2 text-red-400 font-medium text-sm mb-2" >
-          ✗ Compile Error
+        {/* Right: editor + results */}
+        <div className="w-1/2 flex flex-col">
+          <textarea
+            className="flex-1 bg-surface text-sm font-mono p-4 resize-none focus:outline-none"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="// Write your Solidity solution here..."
+          />
+          <div className="border-t border-border">
+            <div className="flex justify-end p-2">
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="px-4 py-1.5 bg-accent text-white text-sm rounded hover:bg-accent/80 disabled:opacity-50"
+              >
+                {isSubmitting ? "Submitting…" : "Submit"}
+              </button>
             </div>
-            < pre className = "text-xs text-red-300 bg-red-950/30 rounded p-3 overflow-auto whitespace-pre-wrap" >
-                { result.compileError }
-                </pre>
-                </div>
-    );
-    }
-
-    const passed = result.tests?.filter((t) => t.passed).length ?? 0;
-    const total = result.tests?.length ?? 0;
-
-    return (
-        <div className= "p-4 text-sm" >
-        {/* Summary banner */ }
-        < div
-    className = {`flex items-center gap-3 px-4 py-2 rounded mb-4 font-medium ${result.passed
-            ? "bg-green-500/10 text-green-400 border border-green-500/30"
-            : "bg-red-500/10 text-red-400 border border-red-500/30"
-        }`
-}
-      >
-    <span>{ result.passed ? "✓ Accepted" : "✗ Wrong Answer" } </span>
-    < span className = "text-xs opacity-70" >
-        { passed } / { total } tests passed
-{ result.executionTimeMs ? ` · ${result.executionTimeMs}ms` : "" }
-</span>
-    </div>
-
-{/* Per-test breakdown */ }
-<div className="space-y-2" >
-{
-    result.tests?.map((test) => (
-        <div
-            key= { test.name }
-            className = {`rounded px-3 py-2 text-xs flex flex-col gap-0.5 ${test.passed
-                ? "bg-green-500/5 border border-green-500/20"
-                : "bg-red-500/5 border border-red-500/20"
-            }`}
-    >
-    <div className="flex items-center justify-between" >
-        <span className={ test.passed ? "text-green-400" : "text-red-400" }>
-            { test.passed ? "✓" : "✗" } { test.name }
-</span>
-{
-    test.gasUsed != null && (
-        <span className="text-gray-500" > { test.gasUsed.toLocaleString() } gas </span>
-              )
-}
-</div>
-{
-    test.reason && (
-        <span className="text-red-300 font-mono" > { test.reason } </span>
-            )
-}
-</div>
-        ))}
-</div>
+            <TestResults result={result} isSubmitting={isSubmitting} />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
