@@ -34,7 +34,7 @@ export function ProblemPanel({ problem }: { problem: Problem }) {
         </div>
 
         < div className = "prose prose-invert prose-sm max-w-none" >
-            <ReactMarkdown>{ problem.description } </ReactMarkdown>
+            <ReactMarkdown>{problem.description}</ReactMarkdown>
             </div>
             </div>
   );
