@@ -52,12 +52,14 @@ export function parseForgeOutput(
 
     for (const [, suite] of Object.entries(parsed)) {
         if (typeof suite !== "object" || suite === null) continue;
-        for (const [name, result] of Object.entries(suite as any)) {
+        const testResults = (suite as any).test_results;
+        if (typeof testResults !== "object" || testResults === null) continue;
+        for (const [name, result] of Object.entries(testResults)) {
             tests.push({
                 name,
                 passed: (result as any).status === "Success",
                 reason: (result as any).reason ?? null,
-                gasUsed: (result as any).gas ?? null,
+                gasUsed: (result as any).kind?.Unit?.gas ?? (result as any).gas ?? null,
             });
         }
     }

@@ -4,3 +4,9 @@ dist
 .env
 .env.local
 *.log
+.foundry
+apps/api/sandbox-template/lib
+apps/api/sandbox-template/.git
+apps/api/sandbox-template/out
+apps/api/sandbox-template/cache
+apps/api/sandbox-template/foundry.lock
