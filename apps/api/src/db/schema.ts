@@ -2,6 +2,14 @@ import { pgTable, text, integer, real, timestamp, pgEnum } from "drizzle-orm/pg-
 
 export const difficultyEnum = pgEnum("difficulty", ["Easy", "Medium", "Hard"]);
 
+export const users = pgTable("users", {
+    id: text("id").primaryKey(),
+    email: text("email").notNull().unique(),
+    passwordHash: text("password_hash").notNull(),
+    name: text("name").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const problems = pgTable("problems", {
     id: text("id").primaryKey(),
     title: text("title").notNull(),
@@ -19,6 +27,7 @@ export const problems = pgTable("problems", {
 export const submissions = pgTable("submissions", {
     id: text("id").primaryKey(),
     problemId: text("problem_id").notNull(),
+    userId: text("user_id").notNull(),
     userCode: text("user_code").notNull(),
     status: text("status").notNull().default("queued"), // queued|running|success|failed|error
     passed: integer("passed"), // 1 or 0

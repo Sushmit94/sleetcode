@@ -1,5 +1,11 @@
 export type Difficulty = "Easy" | "Medium" | "Hard";
 
+export interface User {
+    id: string;
+    email: string;
+    name: string;
+}
+
 export interface Problem {
     id: string;
     title: string;

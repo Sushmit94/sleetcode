@@ -1,16 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { ProblemPanel } from "@/components/ProblemPanel";
 import { Editor } from "@/components/Editor";
 import { TestResults } from "@/components/TestResults";
 import { getProblem, submitCode, pollResult } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 import { Problem, SubmissionResult } from "@solidity-judge/shared";
 
 export default function ProblemPage() {
     const { slug } = useParams<{ slug: string }>();
+    const { user, isLoading: authLoading } = useAuth();
+    const router = useRouter();
 
     const [problem, setProblem] = useState<Problem | null>(null);
     const [result, setResult] = useState<SubmissionResult | null>(null);
@@ -28,6 +31,11 @@ export default function ProblemPage() {
     }, [slug]);
 
     async function handleSubmit(code: string) {
+        if (!authLoading && !user) {
+            router.push(`/login?next=/problems/${slug}`);
+            return;
+        }
+
         setIsSubmitting(true);
         setResult(null);
         try {
@@ -40,8 +48,12 @@ export default function ProblemPage() {
                     setIsSubmitting(false);
                 }
             }, 1500);
-        } catch (err) {
-            console.error("Submission failed:", err);
+        } catch (err: any) {
+            if (err?.response?.status === 401) {
+                router.push(`/login?next=/problems/${slug}`);
+            } else {
+                console.error("Submission failed:", err);
+            }
             setIsSubmitting(false);
         }
     }

@@ -12,7 +12,7 @@ const SubmitBody = z.object({
 });
 
 export async function submitRoutes(app: FastifyInstance) {
-    app.post("/submit", async (req, reply) => {
+    app.post("/submit", { preHandler: [app.authenticate] }, async (req, reply) => {
         const body = SubmitBody.safeParse(req.body);
         if (!body.success) return reply.status(400).send({ error: body.error.flatten() });
 
@@ -30,6 +30,7 @@ export async function submitRoutes(app: FastifyInstance) {
         await db.insert(submissions).values({
             id: submissionId,
             problemId: problem.id,
+            userId: req.user.id,
             userCode,
             status: "queued",
         });
