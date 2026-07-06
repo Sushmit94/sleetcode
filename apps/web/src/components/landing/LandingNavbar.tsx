@@ -14,8 +14,8 @@ export function LandingNavbar() {
                 <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
                     Bug Hunt
                 </a>
-                <a href="#leaderboard" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
-                    Leaderboard
+                <a href="#activity" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                    Activity
                 </a>
                 <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
                     Profile
@@ -39,13 +39,6 @@ export function LandingNavbar() {
                     />
                 </div>
             </div>
-
-            <button
-                type="button"
-                className="ml-auto shrink-0 text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-                Connect Wallet
-            </button>
         </nav>
     );
 }

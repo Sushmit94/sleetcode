@@ -60,9 +60,9 @@ export default function ProblemPage() {
 
     if (!problem) {
         return (
-            <div className="min-h-screen bg-bg text-white flex flex-col">
+            <div className="min-h-screen bg-white text-slate-900 flex flex-col">
                 <Navbar />
-                <div className="flex-1 flex items-center justify-center text-sm text-gray-500">
+                <div className="flex-1 flex items-center justify-center text-sm text-slate-400">
                     Loading problem…
                 </div>
             </div>
@@ -70,14 +70,14 @@ export default function ProblemPage() {
     }
 
     return (
-        <div className="h-screen bg-bg text-white flex flex-col">
+        <div className="h-screen bg-white text-slate-900 flex flex-col">
             <Navbar />
             <div className="flex-1 grid grid-cols-2 min-h-0">
-                <div className="border-r border-border min-h-0">
+                <div className="border-r border-slate-200 min-h-0">
                     <ProblemPanel problem={problem} />
                 </div>
                 <div className="grid grid-rows-2 min-h-0">
-                    <div className="min-h-0 border-b border-border">
+                    <div className="min-h-0 border-b border-slate-200">
                         <Editor
                             defaultCode={problem.starterCode}
                             onSubmit={handleSubmit}

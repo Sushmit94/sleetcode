@@ -64,33 +64,61 @@ const pathways: Pathway[] = [
     },
 ];
 
-const leaderboard = [
+interface ActivityEntry {
+    user: string;
+    action: string;
+    target: string;
+    tag: string;
+    tagClassName: string;
+    dotClassName: string;
+    time: string;
+}
+
+const activityFeed: ActivityEntry[] = [
     {
-        rank: "#01",
-        name: "0xVitalik_fan.eth",
-        role: "Security Researcher",
-        efficiency: 98.4,
-        solved: 156,
-        bounty: "14.2 ETH",
-        avatar: "bg-slate-200",
+        user: "0x7a3f…9c1b",
+        action: "solved",
+        target: "Reentrancy Guard",
+        tag: "Hard",
+        tagClassName: "text-rose-600",
+        dotClassName: "bg-emerald-500",
+        time: "2m ago",
     },
     {
-        rank: "#02",
-        name: "SolidityNinja",
-        role: "Optimization Expert",
-        efficiency: 95.2,
-        solved: 142,
-        bounty: "8.5 ETH",
-        avatar: "bg-slate-800",
+        user: "audit_by_ana",
+        action: "flagged a critical bug in",
+        target: "Flash Loan Oracle",
+        tag: "Critical",
+        tagClassName: "text-rose-600",
+        dotClassName: "bg-rose-500",
+        time: "5m ago",
     },
     {
-        rank: "#03",
-        name: "ByteCracker",
-        role: "Audit Lead",
-        efficiency: 91.8,
-        solved: 128,
-        bounty: "6.1 ETH",
-        avatar: "bg-slate-400",
+        user: "gas_wizard.eth",
+        action: "optimized",
+        target: "ERC721A Mint Loop",
+        tag: "-38% gas",
+        tagClassName: "text-indigo-600",
+        dotClassName: "bg-indigo-500",
+        time: "11m ago",
+    },
+    {
+        user: "0x2b88…ef01",
+        action: "solved",
+        target: "Integer Overflow Check",
+        tag: "Easy",
+        tagClassName: "text-emerald-600",
+        dotClassName: "bg-emerald-500",
+        time: "18m ago",
+    },
+    {
+        user: "0x9f14…22ac",
+        action: "solved",
+        target: "EVM Storage Collision",
+        tag: "Medium",
+        tagClassName: "text-amber-600",
+        dotClassName: "bg-emerald-500",
+        time: "26m ago",
     },
 ];
 
@@ -258,66 +286,56 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Leaderboard */}
-                <section id="leaderboard" className="px-6 py-20 bg-indigo-50/50">
+                {/* Live Activity */}
+                <section id="activity" className="px-6 py-20 bg-indigo-50/50">
                     <div className="max-w-6xl mx-auto">
                         <div className="flex items-end justify-between mb-8">
                             <div>
-                                <h2 className="text-2xl font-bold mb-1">Top Lab Researchers</h2>
+                                <h2 className="text-2xl font-bold mb-1">Live on the Network</h2>
                                 <p className="text-sm text-slate-500">
-                                    The most efficient auditors and developers on the network.
+                                    Real submissions from engineers hunting bugs right now.
                                 </p>
                             </div>
                             <a
-                                href="#"
+                                href="/problems"
                                 className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700"
                             >
-                                Full Leaderboard
+                                Join the Hunt
                                 <ArrowRightIcon className="w-4 h-4" />
                             </a>
                         </div>
 
-                        <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="text-left text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
-                                        <th className="px-6 py-4 font-medium">Rank</th>
-                                        <th className="px-6 py-4 font-medium">Developer</th>
-                                        <th className="px-6 py-4 font-medium">Gas Efficiency</th>
-                                        <th className="px-6 py-4 font-medium">Solved</th>
-                                        <th className="px-6 py-4 font-medium">Bounties</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {leaderboard.map((row) => (
-                                        <tr key={row.rank} className="border-b border-slate-50 last:border-0">
-                                            <td className="px-6 py-4 font-semibold text-slate-700">{row.rank}</td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <span className={`w-8 h-8 rounded-full ${row.avatar}`} />
-                                                    <div>
-                                                        <div className="font-medium text-slate-800">{row.name}</div>
-                                                        <div className="text-xs text-slate-400">{row.role}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-2 w-40">
-                                                    <div className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                                        <div
-                                                            className="h-full rounded-full bg-emerald-500"
-                                                            style={{ width: `${row.efficiency}%` }}
-                                                        />
-                                                    </div>
-                                                    <span className="text-xs text-slate-500">{row.efficiency}%</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 text-slate-600">{row.solved}</td>
-                                            <td className="px-6 py-4 font-semibold text-emerald-600">{row.bounty}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 overflow-hidden">
+                            <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 bg-slate-50">
+                                <span className="w-3 h-3 rounded-full bg-red-400" />
+                                <span className="w-3 h-3 rounded-full bg-amber-400" />
+                                <span className="w-3 h-3 rounded-full bg-emerald-400" />
+                                <span className="mx-auto text-xs text-slate-400 font-mono">live-feed.log</span>
+                                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                    LIVE
+                                </span>
+                            </div>
+
+                            <div className="divide-y divide-slate-100 font-mono text-sm">
+                                {activityFeed.map((entry, i) => (
+                                    <div
+                                        key={i}
+                                        className="flex items-center gap-4 px-5 py-3.5 hover:bg-slate-50 transition-colors"
+                                    >
+                                        <span className={`w-2 h-2 rounded-full shrink-0 ${entry.dotClassName}`} />
+                                        <span className="text-slate-500 w-28 shrink-0 truncate">{entry.user}</span>
+                                        <span className="text-slate-400 hidden sm:inline shrink-0">{entry.action}</span>
+                                        <span className="text-slate-800 font-medium truncate">{entry.target}</span>
+                                        <span className={`ml-auto text-xs font-medium shrink-0 ${entry.tagClassName}`}>
+                                            {entry.tag}
+                                        </span>
+                                        <span className="text-slate-400 text-xs w-14 shrink-0 text-right">
+                                            {entry.time}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>

@@ -1,0 +1,5 @@
+{
+    "title": "Fix the Reentrancy Bug",
+    "difficulty": "Medium",
+    "tags": ["Security", "Reentrancy"]
+}

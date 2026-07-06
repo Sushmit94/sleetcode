@@ -16,16 +16,16 @@ export function Editor({ defaultCode, onSubmit, isSubmitting }: EditorProps) {
     return (
         <div className="flex flex-col h-full">
             {/* Editor toolbar */}
-            <div className="flex items-center justify-between px-3 py-1.5 border-b border-border bg-surface text-xs text-gray-400">
+            <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-200 bg-slate-50 text-xs text-slate-500">
                 <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-yellow-400 inline-block" />
+                    <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
                     Solution.sol
                 </span>
                 <div className="flex items-center gap-3">
                     <label className="flex items-center gap-1">
                         Font
                         <select
-                            className="bg-bg border border-border rounded px-1 py-0.5 text-xs ml-1"
+                            className="bg-white border border-slate-200 rounded px-1 py-0.5 text-xs ml-1"
                             value={fontSize}
                             onChange={(e) => setFontSize(Number(e.target.value))}
                         >
@@ -43,7 +43,7 @@ export function Editor({ defaultCode, onSubmit, isSubmitting }: EditorProps) {
                     height="100%"
                     defaultLanguage="sol"
                     defaultValue={defaultCode}
-                    theme="vs-dark"
+                    theme="light"
                     options={{
                         fontSize,
                         minimap: { enabled: false },
@@ -89,16 +89,16 @@ export function Editor({ defaultCode, onSubmit, isSubmitting }: EditorProps) {
             </div>
 
             {/* Submit bar */}
-            <div className="flex items-center gap-3 px-4 py-2 border-t border-border bg-surface">
+            <div className="flex items-center gap-3 px-4 py-2 border-t border-slate-200 bg-slate-50">
                 <button
                     onClick={() => onSubmit(codeRef.current)}
                     disabled={isSubmitting}
-                    className="px-5 py-1.5 rounded text-sm font-medium bg-green-500 hover:bg-green-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-5 py-1.5 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     {isSubmitting ? "Running tests…" : "Submit"}
                 </button>
-                <span className="text-xs text-gray-500">
-                    Runs <code className="text-gray-300">forge test</code> against hidden test cases
+                <span className="text-xs text-slate-500">
+                    Runs <code className="text-slate-600">forge test</code> against hidden test cases
                 </span>
             </div>
         </div>
