@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Problem, SubmissionResult, User } from "@solidity-judge/shared";
+import { DashboardStats, Problem, SubmissionResult, User } from "@solidity-judge/shared";
 
 const client = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -49,5 +49,10 @@ export async function submitCode(
 
 export async function pollResult(jobId: string): Promise<SubmissionResult> {
     const { data } = await client.get(`/result/${jobId}`);
+    return data;
+}
+
+export async function getDashboardStats(): Promise<DashboardStats> {
+    const { data } = await client.get("/dashboard");
     return data;
 }

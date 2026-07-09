@@ -7,6 +7,7 @@ import { authRoutes } from "./routes/auth";
 import { problemRoutes } from "./routes/problems";
 import { submitRoutes } from "./routes/submit";
 import { resultRoutes } from "./routes/result";
+import { dashboardRoutes } from "./routes/dashboard";
 
 // Start the worker in the same process (fine for dev; split in prod)
 import "./workers/executor.worker";
@@ -29,6 +30,7 @@ async function start() {
         app.register(problemRoutes);
         app.register(submitRoutes);
         app.register(resultRoutes);
+        app.register(dashboardRoutes);
 
         app.get("/health", () => ({ ok: true }));
 

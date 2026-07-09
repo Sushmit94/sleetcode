@@ -33,3 +33,30 @@ export interface SubmissionResult {
     compileError?: string | null;
     executionTimeMs?: number;
 }
+
+export interface HeatmapEntry {
+    date: string; // YYYY-MM-DD
+    count: number;
+}
+
+export interface RecentSubmission {
+    problemTitle: string;
+    problemSlug: string;
+    difficulty: Difficulty;
+    status: "queued" | "running" | "success" | "failed" | "error";
+    createdAt: string; // ISO timestamp
+}
+
+export interface DashboardStats {
+    totalSolved: number;
+    totalProblems: number;
+    solvedByDifficulty: Record<Difficulty, number>;
+    totalByDifficulty: Record<Difficulty, number>;
+    totalSubmissions: number;
+    acceptanceRate: number; // 0-100
+    currentStreak: number;
+    longestStreak: number;
+    lastSolvedDate: string | null; // YYYY-MM-DD
+    heatmap: HeatmapEntry[];
+    recentSubmissions: RecentSubmission[];
+}
