@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useAuth } from "@/lib/auth-context";
 
 export function LandingNavbar() {
+    const { user } = useAuth();
+
     return (
         <nav className="h-16 border-b border-slate-200 bg-white/80 backdrop-blur flex items-center px-6 gap-8 sticky top-0 z-30">
             <Link href="/" className="text-indigo-600 font-bold text-lg tracking-tight">
@@ -17,9 +22,12 @@ export function LandingNavbar() {
                 <a href="#activity" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
                     Activity
                 </a>
-                <a href="#" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                <Link
+                    href={user ? "/dashboard" : "/login"}
+                    className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
+                >
                     Profile
-                </a>
+                </Link>
             </div>
 
             <div className="hidden sm:flex items-center flex-1 max-w-xs ml-4">
